@@ -1,12 +1,15 @@
-type CommandsTable = Record<string, (arg: Args) => Promise<string>>
+type CommandsTable = Record<string, (args: ArgsObject) => Promise<string>>
 
 interface parsedInput {
+  
   command: string
-  args: Args
+  args: ArgsObject
 }
 
 type Command = string
-interface Args {
+
+interface ArgsObject {
+  raw: string
   arg1: string
   arg2?: string
 }
