@@ -2,17 +2,16 @@
 # Websocket Remote control (via nut.js)
 (RS School NodeJS course project)
 
-Node js application allows to move the mouse around the screen using the keyboard arrows, draw simple shapes (circle, rectangle, square) and take a screenshot of the part of the screen around the cursor. The interaction between the server and the client takes place via WebSockets.
+This NodeJS application allows to move the mouse around the screen using the keyboard arrows, draw simple shapes (circle, rectangle, square), get current mouse coordinates and take a screenshot of the part of the screen around the cursor. Communication between the server and the client implemented using WebSockets.
 
 **Limitations of underlying nut.js library**: 
-- if there are several monitors, screenshot can be taken only on the main one.
+- if there are several monitors connected, screenshot will be taken only on the main one.
 - Correct operation under Linux is not guaranteed
-
 
 
 ## Installation
 
-After project is cloned and switched to "dev" branch, install dependencies:
+After project is cloned, install dependencies:
 
 ```bash
   npm install
@@ -33,4 +32,4 @@ After project is cloned and switched to "dev" branch, install dependencies:
 
 **Frontend**
 
-Open http://localhost:8181 (default) and follow the on screen hints.
+Open http://localhost:8181 (default) and follow the on-screen hints.
