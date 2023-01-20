@@ -1,11 +1,13 @@
 const parseInputData = (rawCommand) => {
-    const commandArr = rawCommand.split(' ');
+    const [fullCommand, arg1, arg2] = rawCommand.split(' ');
+    const [controller, command] = fullCommand.split('_');
     return {
-        command: commandArr[0],
+        controller,
+        command,
         args: {
-            raw: rawCommand,
-            arg1: rawCommand.split(' ')[1],
-            arg2: rawCommand.split(' ')[2]
+            rawCommand,
+            arg1,
+            arg2
         }
     };
 };
