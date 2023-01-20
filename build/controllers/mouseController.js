@@ -1,45 +1,36 @@
 import { mouse, Point } from '@nut-tree/nut-js';
 const mouseCommands = {
-    position: async ({ rawCommand }, { commandPrefix }) => {
-        console.log(commandPrefix, rawCommand);
+    position: async () => {
         const mPos = await mouse.getPosition();
         return `mouse_position ${mPos.x},${mPos.y}`;
     },
-    up: async ({ rawCommand, arg1 }, { commandPrefix, mouseSpeed }) => {
-        mouse.config.mouseSpeed = mouseSpeed;
-        console.log(commandPrefix, rawCommand);
+    up: async ({ arg1 }) => {
         const offset = Number(arg1);
         const pos = await mouse.getPosition();
         const target = new Point(pos.x, pos.y - offset);
         await mouse.setPosition(target);
-        return `mouse_up(${arg1}px)`;
+        return 'mouse_up';
     },
-    down: async ({ rawCommand, arg1 }, { commandPrefix, mouseSpeed }) => {
-        mouse.config.mouseSpeed = mouseSpeed;
-        console.log(commandPrefix, rawCommand);
+    down: async ({ arg1 }) => {
         const offset = Number(arg1);
         const pos = await mouse.getPosition();
         const target = new Point(pos.x, pos.y + offset);
         await mouse.setPosition(target);
-        return `mouse_down(${arg1}px)`;
+        return 'mouse_down';
     },
-    left: async ({ rawCommand, arg1 }, { commandPrefix, mouseSpeed }) => {
-        mouse.config.mouseSpeed = mouseSpeed;
-        console.log(commandPrefix, rawCommand);
+    left: async ({ arg1 }) => {
         const offset = Number(arg1);
         const pos = await mouse.getPosition();
         const target = new Point(pos.x - offset, pos.y);
         await mouse.setPosition(target);
-        return `mouse_left(${arg1}px)`;
+        return 'mouse_left';
     },
-    right: async ({ rawCommand, arg1 }, { commandPrefix, mouseSpeed }) => {
-        mouse.config.mouseSpeed = mouseSpeed;
-        console.log(commandPrefix, rawCommand);
+    right: async ({ arg1 }) => {
         const offset = Number(arg1);
         const pos = await mouse.getPosition();
         const target = new Point(pos.x + offset, pos.y);
         await mouse.setPosition(target);
-        return `mouse_right(${arg1}px)`;
+        return 'mouse_right';
     }
 };
 export default mouseCommands;

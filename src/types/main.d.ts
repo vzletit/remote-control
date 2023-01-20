@@ -1,27 +1,25 @@
-type CommandsTable = Record<string, (args: ArgsObject, config: ConfigObj) => Promise<string>>
-
-
+type CommandsTable = Record<string, (args: ArgsObject) => Promise<string>>
 
 interface ConfigObj {
   mouseSpeed: number
-  commandPrefix: string
+  replyPrefix: string
 }
 
 interface parsedInput {
   controller: string
   command: string
-  args: ArgsObject
+  args: BaseArgsObject
 }
 
 type Command = string
 
-interface ArgsObject {
-  rawCommand: string
+interface BaseArgsObject {
   arg1: string
   arg2?: string | undefined
 }
 
-
-interface ControllersMap {
-  [key: string]: CommandsTable
+interface ArgsObject extends BaseArgsObject {
+  mouseSpeed: number
 }
+
+type ControllersMap = Record<string, CommandsTable>

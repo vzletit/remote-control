@@ -1,10 +1,11 @@
-import { Region, screen } from '@nut-tree/nut-js';
+import { mouse, Region, screen } from '@nut-tree/nut-js';
 import Jimp from 'jimp';
 const prntCommands = {
-    scrn: async ({ rawCommand }, { commandPrefix }) => {
-        console.log(commandPrefix, rawCommand);
-        const image = await screen.grabRegion(new Region(100, 100, 200, 200));
-        const img = new Jimp(image);
+    scrn: async () => {
+        const mPos = await mouse.getPosition();
+        const image = await screen.grabRegion(new Region(Number(mPos.x) - 100, Number(mPos.y) - 100, 200, 200));
+        const rgbImage = await image.toRGB();
+        const img = new Jimp(rgbImage);
         const res = await img.getBufferAsync(Jimp.MIME_PNG);
         return `prnt_scrn ${res.toString('base64')}`;
     }

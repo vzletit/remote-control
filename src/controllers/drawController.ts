@@ -2,10 +2,9 @@ import { mouse, left, right, up, down, straightTo, Point } from '@nut-tree/nut-j
 
 const drawCommands: CommandsTable = {
 
-  circle: async ({ rawCommand, arg1 }, { commandPrefix, mouseSpeed }) => {
+  circle: async ({ arg1, mouseSpeed }) => {
     mouse.config.mouseSpeed = mouseSpeed
 
-    console.log(commandPrefix, rawCommand)
     const pos = await mouse.getPosition()
     const r = Number(arg1)
 
@@ -20,13 +19,12 @@ const drawCommands: CommandsTable = {
     }
     await mouse.releaseButton(0)
 
-    return `draw_circle(r:${arg1}px)`
+    return 'draw_circle'
   },
 
-  square: async ({ rawCommand, arg1 }, { commandPrefix, mouseSpeed }) => {
+  square: async ({ arg1, mouseSpeed }) => {
     mouse.config.mouseSpeed = mouseSpeed
 
-    console.log(commandPrefix, rawCommand)
     const sideLength = Number(arg1)
     await mouse.pressButton(0)
     await mouse.move(right(sideLength))
@@ -35,13 +33,12 @@ const drawCommands: CommandsTable = {
     await mouse.move(up(sideLength))
     await mouse.releaseButton(0)
 
-    return `draw_square(${arg1}px)`
+    return 'draw_square'
   },
 
-  rectangle: async ({ rawCommand, arg1, arg2 }, { commandPrefix, mouseSpeed }) => {
+  rectangle: async ({ arg1, arg2, mouseSpeed }) => {
     mouse.config.mouseSpeed = mouseSpeed
 
-    console.log(commandPrefix, rawCommand)
     const sideLengthX = Number(arg1)
     const sideLengthY = Number(arg2)
     await mouse.pressButton(0)
@@ -51,7 +48,7 @@ const drawCommands: CommandsTable = {
     await mouse.move(up(sideLengthY))
     await mouse.releaseButton(0)
 
-    return `draw_rectangle(${arg1}x${arg2 ?? ''}px)`
+    return 'draw_rectangle'
   }
 }
 

@@ -6,7 +6,6 @@ const parseInputData = (rawCommand: string): parsedInput => {
     controller,
     command,
     args: {
-      rawCommand,
       arg1,
       arg2
     }
