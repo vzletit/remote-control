@@ -1,33 +1,35 @@
 import { WebSocketServer, createWebSocketStream } from 'ws';
 import controllersMap from './controllers/index.js';
 import parseInputData from './utils/parseInputData.js';
-import replyRender from './utils/replyRender.js';
-import errorRender from './utils/errorRender.js';
+import render from './utils/render.js';
 const webSocketPort = 8080;
 const mouseSpeed = 400;
-const commandPrefix = '->';
-const replyPrefix = '<-';
-const wsIO = () => {
+const app = () => {
     const wss = new WebSocketServer({ port: webSocketPort });
-    console.log(`+ WebSocket Server created on port ${webSocketPort}`);
+    render(`WebSocket Server launched on port ${webSocketPort}`, { mode: 'info' });
     wss.on('connection', async (ws) => {
         const stream = createWebSocketStream(ws, { decodeStrings: false });
-        console.log('>>  Client connected, internal duplex stream created. Waiting for commands...');
+        // setTimeout used for 'correct' order of disconnect/connect event messages when user refreshes page in browser
+        setTimeout(() => {
+            render('++ Client connected', { mode: 'info' });
+            render('Internal duplex stream launched. Waiting for commands...', { mode: 'info' });
+        }, 500);
         stream.on('data', async (chunk) => {
             const rawCommand = chunk.toString();
-            console.log(`${commandPrefix} ${rawCommand}`);
+            render(`-> ${rawCommand}`, { mode: 'info' });
             const { controller, command, args } = parseInputData(rawCommand);
             try {
                 const result = await controllersMap[controller][command](Object.assign(Object.assign({}, args), { mouseSpeed }));
-                replyRender(result, replyPrefix);
+                render(result, { mode: 'reply' });
                 stream.write(result);
             }
             catch (err) {
-                errorRender(rawCommand);
+                render(rawCommand, { mode: 'handleError' });
             }
         });
-        ws.on('error', async () => { errorRender('Socket connection error'); });
-        ws.on('close', async () => { console.log('<<  Client disconnected'); });
+        stream.on('error', async () => { render('Internal stream error', { mode: 'socketError' }); });
+        ws.on('error', async () => { render('Socket connection error', { mode: 'socketError' }); });
+        ws.on('close', async () => { render('-- Client disconnected', { mode: 'info' }); });
     });
 };
-export default wsIO;
+export default app;

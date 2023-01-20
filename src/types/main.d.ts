@@ -23,3 +23,7 @@ interface ArgsObject extends BaseArgsObject {
 }
 
 type ControllersMap = Record<string, CommandsTable>
+
+type mode = keyof RenderByMode
+
+type RenderByMode = Record<string, (arg: string) => string>
