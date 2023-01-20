@@ -2,6 +2,7 @@ import { WebSocketServer, createWebSocketStream } from 'ws';
 import controllersMap from './controllers/index.js';
 import parseInputData from './utils/parseInputData.js';
 import replyRender from './utils/replyRender.js';
+import errorRender from './utils/errorRender.js';
 const webSocketPort = 8080;
 const mouseSpeed = 400;
 const commandPrefix = '->';
@@ -10,9 +11,8 @@ const wsIO = () => {
     const wss = new WebSocketServer({ port: webSocketPort });
     console.log(`+ WebSocket Server created on port ${webSocketPort}`);
     wss.on('connection', async (ws) => {
-        console.log('>>  Client connected.');
         const stream = createWebSocketStream(ws, { decodeStrings: false });
-        console.log('    Internal duplex stream created. Waiting for commands...');
+        console.log('>>  Client connected, internal duplex stream created. Waiting for commands...');
         stream.on('data', async (chunk) => {
             const rawCommand = chunk.toString();
             console.log(`${commandPrefix} ${rawCommand}`);
@@ -23,10 +23,10 @@ const wsIO = () => {
                 stream.write(result);
             }
             catch (err) {
-                console.log(`!!!  Failed processing "${rawCommand}". Either unknown command or handler error.`);
+                errorRender(rawCommand);
             }
         });
-        ws.on('error', async () => { console.log('Socket connection error'); });
+        ws.on('error', async () => { errorRender('Socket connection error'); });
         ws.on('close', async () => { console.log('<<  Client disconnected'); });
     });
 };
