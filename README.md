@@ -1,11 +1,22 @@
-# RSSchool NodeJS websocket task template
-> Static http server and base task packages. 
-> By default WebSocket client tries to connect to the 8080 port.
+
+# Websocket Remote control (via nut.js)
+(RS School NodeJS course project)
+
+This NodeJS application allows to move the mouse around the screen using the keyboard arrows, draw simple shapes (circle, rectangle, square), get current mouse coordinates and take a screenshot of the part of the screen around the cursor. Communication between the server and the client implemented using WebSockets.
+
+**Limitations of underlying nut.js library**: 
+- if there are several monitors connected, screenshot will be taken only on the main one.
+- Correct operation under Linux is not guaranteed
+
 
 ## Installation
-1. Clone/download repo
-2. `npm install`
 
+After project is cloned, install dependencies:
+
+```bash
+  npm install
+```
+    
 ## Usage
 **Development**
 
@@ -19,13 +30,6 @@
 
 * App served @ `http://localhost:8181` without nodemon
 
----
+**Frontend**
 
-**All commands**
-
-Command | Description
---- | ---
-`npm run start:dev` | App served @ `http://localhost:8181` with nodemon
-`npm run start` | App served @ `http://localhost:8181` without nodemon
-
-**Note**: replace `npm` with `yarn` in `package.json` if you use yarn.
+Open http://localhost:8181 (default) and follow the on-screen hints.
